@@ -1,0 +1,79 @@
+<idea-plugin>
+    <id>cn.vove7.ide.plugin.rest</id>
+    <name>Rest Client 2.0</name>
+    <version>2.1</version>
+    <vendor email="vove7@qq.com" url="https://github.com/Vove7/idea-rest-client">Vove7</vendor>
+
+    <description><![CDATA[
+      This is simple http rest client
+      Support Quick Run Retrofit Api
+
+
+    ]]></description>
+
+    <change-notes><![CDATA[
+    1. Support post form data
+    2. Support Quick Run Retrofit Api
+    ]]>
+    </change-notes>
+
+    <idea-version since-build="182.0" />
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <application-components>
+        <component>
+            <implementation-class>cn.vove7.plugin.rest.filetype.RestClientPlugin
+            </implementation-class>
+        </component>
+    </application-components>
+
+    <project-components>
+        <component>
+            <implementation-class>cn.vove7.plugin.rest.filetype.RestProjectComponent
+            </implementation-class>
+        </component>
+    </project-components>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.lineMarkerProvider language="JAVA"
+            implementationClass="cn.vove7.plugin.rest.lineprovider.RetrofitLineJavaMarkerProvider" />
+
+        <codeInsight.lineMarkerProvider language="kotlin"
+            implementationClass="cn.vove7.plugin.rest.lineprovider.RetrofitLineKotlinMarkerProvider" />
+
+        <fileTypeFactory implementation="cn.vove7.plugin.rest.filetype.RestFileTypeFactory" />
+        <lang.parserDefinition language="Rest"
+            implementationClass="cn.vove7.plugin.rest.filetype.RestParserDefinition" />
+        <lang.syntaxHighlighterFactory language="Rest"
+            implementationClass="cn.vove7.plugin.rest.filetype.RestHighlighterFactory" />
+        <multiHostInjector implementation="cn.vove7.plugin.rest.filetype.RestHostInjector" />
+        <additionalTextAttributes file="META-INF/schema.xml" scheme="Default" />
+
+        <colorSettingsPage implementation="cn.vove7.plugin.rest.filetype.RestColorSettingsPage" />
+
+        <lang.commenter language="Rest"
+            implementationClass="cn.vove7.plugin.rest.filetype.RestCommenter" />
+    </extensions>
+
+
+    <actions>
+        <action class="cn.vove7.plugin.rest.action.RunAction" id="rest.action.run"
+            text="Run Rest Request">
+            <keyboard-shortcut first-keystroke="meta ENTER" keymap="$default" />
+        </action>
+    </actions>
+
+    <actions>
+        <action class="cn.vove7.plugin.rest.action.StopAction" id="rest.action.stop"
+            text="Stop Rest Request">
+            <keyboard-shortcut first-keystroke="meta F2" keymap="$default" />
+        </action>
+    </actions>
+
+    <depends>org.jetbrains.kotlin</depends>
+</idea-plugin>

@@ -1,0 +1,55 @@
+{
+  parserClass="cn.vove7.plugin.rest.parser.RestParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Rest"
+  psiImplClassSuffix="Impl"
+  psiPackage="cn.vove7.plugin.rest.psi"
+  psiImplPackage="cn.vove7.plugin.rest.psi.impl"
+
+  elementTypeHolderClass="cn.vove7.plugin.rest.psi.RestTypes"
+  elementTypeClass="cn.vove7.plugin.rest.psi.RestElementType"
+  tokenTypeClass="cn.vove7.plugin.rest.psi.RestTokenType"
+}
+
+restFile ::= item_*
+
+//private item_ ::= (WHITE_SPACE|COMMENT|OPTION|PARAM|HEADER|URL|METHOD|SEPARATOR|REQUEST_BODY_LINE|RESPONSE_BODY_LINE|CRLF|BAD_CHARACTER)+
+
+private item_ ::= request e_separator? ws* response?
+
+ws ::= {WHITE_SPACE|CRLF}+
+
+e_separator ::= SEPARATOR
+
+e_method ::= METHOD
+
+e_url ::= URL
+
+e_bad ::= BAD_CHARACTER
+
+request ::= ws* comments? options? comments? e_method? ws* comments? e_url ws* comments? params? comments? headers? comments? request_body?
+
+options ::= COMMENT? OPTION {OPTION|COMMENT|ws}*
+
+e_param ::= PARAM
+
+params ::= e_param {e_param|COMMENT|ws}*
+
+comments ::= COMMENT {COMMENT|ws}*
+
+e_header ::= HEADER
+
+headers ::= e_header {e_header|COMMENT|ws}*
+
+request_body ::= REQUEST_BODY_LINE {REQUEST_BODY_LINE|COMMENT|ws}* {
+    mixin="cn.vove7.plugin.rest.psi.impl.RestElementImpl"
+}
+
+response ::= comments? headers? comments? response_body?
+
+response_body ::= RESPONSE_BODY_LINE {RESPONSE_BODY_LINE|COMMENT|ws}* {
+    mixin="cn.vove7.plugin.rest.psi.impl.RestElementImpl"
+}
+
