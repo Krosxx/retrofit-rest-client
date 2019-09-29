@@ -12,6 +12,7 @@ import org.jetbrains.kotlin.psi.KtNamedFunction
  * Date: 2019/9/28
  */
 class RetrofitLineKotlinMarkerProvider : RetrofitLineMarkerProvider() {
+
     override fun getMethod(ele: PsiElement): PsiMethod? {
         if (ele is KtNamedFunction) {
             return ele.toPsiMethod()

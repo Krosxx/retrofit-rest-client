@@ -7,7 +7,6 @@ import cn.vove7.plugin.rest.tool.virtualFile
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
 import com.intellij.icons.AllIcons
-import com.intellij.openapi.application.Application
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.openapi.ui.ex.MessagesEx
@@ -29,11 +28,20 @@ abstract class RetrofitLineMarkerProvider : LineMarkerProvider {
 
     abstract fun getMethod(ele: PsiElement): PsiMethod?
 
+    private fun PsiMethod.markElement(): PsiElement {
+            return nameIdentifier ?: this
+    }
+
+    private fun PsiElement.markElementToMethod(): PsiMethod {
+        return context as PsiMethod
+    }
+
     @Suppress("UNCHECKED_CAST")
     override fun getLineMarkerInfo(ele: PsiElement): LineMarkerInfo<*>? {
         val target = getMethod(ele) ?: return null
         if (target.isRetrofitMethod()) {
-            return LineMarkerInfo(ele, ele.textRange, icon, 0,
+            val markElement = target.markElement()
+            return LineMarkerInfo(markElement, markElement.textRange, icon, 0,
                     { "Run Request" },
                     this::runRetrofitApiSafely,
                     GutterIconRenderer.Alignment.CENTER
@@ -41,6 +49,7 @@ abstract class RetrofitLineMarkerProvider : LineMarkerProvider {
         }
         return null
     }
+
 
     /**
      * 当前元素
@@ -134,7 +143,7 @@ abstract class RetrofitLineMarkerProvider : LineMarkerProvider {
 
     @Suppress("UNCHECKED_CAST")
     private fun runRetrofitApi(e: MouseEvent, element: PsiElement) {
-        val ele = getMethod(element) ?: return
+        val ele = element.markElementToMethod()
         val reqModel = ele.apiMethodToRequestModel() ?: return
         //目录
         val dir = ele.project.basePath + "/rest-client"
