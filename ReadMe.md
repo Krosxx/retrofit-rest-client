@@ -1,7 +1,7 @@
 # Retrofit Rest Client
 
 
-> The best for Android Studio.
+> The best http client for Android Studio.
 >
 > This plugin is base on [idea-rest-client](https://github.com/danblack/idea-rest-client).
 
@@ -103,18 +103,23 @@ You can use `{name}` to reference env variable.
 }
 ```
 
-2. chose env to tun
+2. Choose env to tun
 
 ![](pic/s2.png)
 
 ### Install
 
-TODO
+1. Marketplace
 
+IDEA or Android Studio `Settings/Plugins/Marketplace` search `Retrofit Rest Client`
+
+2. download [retrofit-rest-client.zip](https://github.com/Vove7/retrofit-rest-client/blob/master/retrofit-rest-client.zip) file.
+
+`Settings/Plugins/` Install Plugin from Disk.
 
 ### Thanks
 
-This plugin is base on [idea-rest-client](https://github.com/danblack/idea-rest-client).
+This plugin is based on [idea-rest-client](https://github.com/danblack/idea-rest-client).
 
 ### TODO
 
