@@ -3,7 +3,7 @@
 
 > The best http client for Android Studio.
 >
-> This plugin is base on [idea-rest-client](https://github.com/danblack/idea-rest-client).
+> This plugin is based on [idea-rest-client](https://github.com/danblack/idea-rest-client).
 
 
 - **Support run retrofit api interface functions directly.**
