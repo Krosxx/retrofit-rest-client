@@ -2,7 +2,7 @@
     <id>cn.vove7.ide.plugin.rest</id>
     <name>Retrofit Rest Client 2.0</name>
     <version>2.1</version>
-    <vendor email="vove7@qq.com" url="https://github.com/Vove7/idea-rest-client">Vove7</vendor>
+    <vendor email="vove7@qq.com" url="https://github.com/Vove7/retrofit-rest-client">Vove7</vendor>
 
     <description><![CDATA[
 <p> <a href="https://github.com/Vove7/retrofit-rest-client">Github Repository</a>.</p></p>
