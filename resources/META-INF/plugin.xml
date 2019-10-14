@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>cn.vove7.ide.plugin.rest</id>
     <name>Retrofit Rest Client 2.0</name>
-    <version>2.1</version>
+    <version>2.1.0</version>
     <vendor email="vove7@qq.com" url="https://github.com/Vove7/retrofit-rest-client">Vove7</vendor>
 
     <description><![CDATA[
@@ -176,4 +176,5 @@ id=1&amp;s=hello
     </actions>
 
     <depends>org.jetbrains.kotlin</depends>
+    <depends>com.intellij.modules.java</depends>
 </idea-plugin>
