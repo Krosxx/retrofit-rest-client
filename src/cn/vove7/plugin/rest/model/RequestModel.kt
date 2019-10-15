@@ -1,6 +1,7 @@
 package cn.vove7.plugin.rest.model
 
 import cn.vove7.plugin.rest.tool.decodeUrl
+import cn.vove7.plugin.rest.tool.get
 import cn.vove7.plugin.rest.tool.getFormattedResponse
 import cn.vove7.plugin.rest.tool.joinToString
 import com.google.gson.Gson
@@ -127,7 +128,7 @@ class RequestModel {
     private fun replaceMap(map: MutableMap<String, String>, env: Map<String, Any>) {
         map.forEach { (t, u) ->
             if (u.startsWith('{') && u.endsWith('}')) {
-                val pname = u.substring(1 until u.length-1)
+                val pname = u[1, u.length - 1]
                 if (pname in env) {
                     map[t] = env[pname] as String
                 } else {
@@ -164,7 +165,7 @@ class RequestModel {
             val s = System.currentTimeMillis()
             return s.toString()
         } else {
-            val tsPattern = paramName.substring(3)
+            val tsPattern = paramName[3, 0]
             if (tsPattern.equals("sec", true)) {//秒
                 val s = System.currentTimeMillis() / 1000
                 s.toString()

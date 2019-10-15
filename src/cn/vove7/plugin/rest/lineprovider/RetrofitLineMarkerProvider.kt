@@ -1,6 +1,7 @@
 package cn.vove7.plugin.rest.lineprovider
 
 import cn.vove7.plugin.rest.model.RequestModel
+import cn.vove7.plugin.rest.tool.get
 import cn.vove7.plugin.rest.tool.open
 import cn.vove7.plugin.rest.tool.trimValue
 import cn.vove7.plugin.rest.tool.virtualFile
@@ -29,7 +30,7 @@ abstract class RetrofitLineMarkerProvider : LineMarkerProvider {
     abstract fun getMethod(ele: PsiElement): PsiMethod?
 
     private fun PsiMethod.markElement(): PsiElement {
-            return nameIdentifier ?: this
+        return nameIdentifier ?: this
     }
 
     override fun collectSlowLineMarkers(elements: MutableList<PsiElement>, result: MutableCollection<LineMarkerInfo<PsiElement>>) {
@@ -77,15 +78,15 @@ abstract class RetrofitLineMarkerProvider : LineMarkerProvider {
     }
 
     /**
-     * 根据注解解析 request url and method
+     * 根据注解解析 request url and method and headers
      * @receiver PsiMethod
-     * @return Pair<String?, String?>
+     * @return Triple<String?, String?,List<String>> method, url, headers
      */
-    private fun PsiMethod.parseMethodAndUrl(): Pair<String?, String?> {
-        return annotations.find { it.qualifiedName in supportAnnotationNames }!!.let { ano ->
+    private fun PsiMethod.parseMethodAnnotation(): Triple<String?, String?, List<String>> {
+        val (method, url) = annotations.find { it.qualifiedName in supportAnnotationNames }!!.let { ano ->
             if (ano.qualifiedName != "retrofit2.http.HTTP") {
                 ano.qualifiedName!!.let {
-                    it.substring(it.lastIndexOf('.') + 1)
+                    it[it.lastIndexOf('.') + 1, 0]
                 } to ano.parameterList.attributes[0].trimValue
             } else {
                 val attrs = ano.parameterList.attributes
@@ -95,12 +96,23 @@ abstract class RetrofitLineMarkerProvider : LineMarkerProvider {
                 )
             }
         }
+        val headers = annotations.find { it.qualifiedName == "retrofit2.http.Headers" }?.let {
+            parseHeadersFromMethodAnnotation(this, it)
+        } ?: emptyList()
+        return Triple(method, url, headers)
     }
+
+    /**
+     * 解析`@Herders`注解
+     * @param annotation PsiAnnotation
+     * @return List<String>
+     */
+    abstract fun parseHeadersFromMethodAnnotation(method: PsiMethod, annotation: PsiAnnotation): List<String>
 
 
     private fun PsiMethod.apiMethodToRequestModel(): RequestModel? {
 
-        val (methodStr, urlValue) = parseMethodAndUrl()
+        val (methodStr, urlValue, hs) = parseMethodAnnotation()
 
         if (methodStr == null) {
             throw Exception("Get request method failed!")
@@ -110,11 +122,19 @@ abstract class RetrofitLineMarkerProvider : LineMarkerProvider {
         }
         return RequestModel().apply {
             method = RequestModel.Method.valueOf(methodStr)
+            hs.forEach { headerStr ->
+                val dotIndex = headerStr.indexOf(':')
+                if (dotIndex > 0) {
+                    headers[headerStr[0, dotIndex]] = headerStr[dotIndex + 1, 0].trim()
+                } else {
+                    headers[headerStr] = ""
+                }
+            }
             url = urlValue.let {
                 if (it.startsWith("http")) it else "{BASE_URL}$it"
             }
             this@apiMethodToRequestModel.parseParametersAnnotation(this)
-            if (method != RequestModel.Method.GET) {
+            if (method != RequestModel.Method.GET && !headers.keys.any { it.equals("content-type", true) }) {
                 headers["Content-Type"] = contentType()
             }
         }
@@ -140,7 +160,7 @@ abstract class RetrofitLineMarkerProvider : LineMarkerProvider {
         try {
             runRetrofitApi(e, ele)
         } catch (e: Throwable) {
-            MessagesEx.showInfoMessage(e.message, "An error happened")
+            MessagesEx.showInfoMessage("${e::class.qualifiedName}: ${e.message}", "An error happened")
         }
     }
 

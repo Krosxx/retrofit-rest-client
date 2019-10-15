@@ -1,6 +1,5 @@
 package cn.vove7.plugin.rest.tool
 
-import cn.vove7.plugin.rest.action.RunAction
 import com.intellij.lang.Language
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileEditor.FileEditorManager
@@ -29,8 +28,20 @@ operator fun <K, V> Map<K, V>.get(k: K, dv: V): V {
 
 fun String.decodeUrl(): String = URLDecoder.decode(this)
 
+/**
+ * 截取字符串
+ * "abc"[1..2]
+ * @receiver String
+ * @param intRange IntRange
+ * @return String
+ */
+operator fun String.get(intRange: IntRange): String = substring(intRange)
 
-val PsiElement.trimValue get() = text?.trim('"')
+operator fun String.get(begin: Int, end: Int): String {
+    val e = if (end <= 0) length + end else end
+    return substring(begin, e)
+}
+
 
 fun getFormattedResponse(project: Project, contentType: String?, text: String?): String {
     val langList = Language.findInstancesByMimeType(contentType)
@@ -53,6 +64,7 @@ fun format(project: Project, language: Language, text: String): String {
         psiFile.text
     }
 }
+
 fun <K, V> Map<K, V>.joinToString(
         separator: CharSequence = ", ",
         prefix: CharSequence = "[",
@@ -74,6 +86,8 @@ fun <K, V> Map<K, V>.joinToString(
 }
 
 val PsiNameValuePair.trimValue get() = value?.text?.trim('"')
+
+val PsiElement.trimText get() = text?.trim('"')
 
 fun VirtualFile.open(project: Project) {
     FileEditorManager.getInstance(project)

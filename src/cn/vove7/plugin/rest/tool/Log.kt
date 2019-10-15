@@ -14,7 +14,7 @@ object Log : Logger by LoggerFactory.getLogger("-") {
 
     private fun getCallerInfo(): String {
         val s = Thread.currentThread().stackTrace[3]
-        return "${s.className.let { it.substring(it.lastIndexOf('.') + 1) }}.${s.methodName}(${s.fileName}:${s.lineNumber})"
+        return "${s.className.let { it[it.lastIndexOf('.') + 1, 0] }}.${s.methodName}(${s.fileName}:${s.lineNumber})"
     }
 
     @JvmStatic
