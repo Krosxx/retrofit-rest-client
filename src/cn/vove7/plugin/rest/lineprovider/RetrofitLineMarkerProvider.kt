@@ -14,6 +14,7 @@ import com.intellij.openapi.ui.ex.MessagesEx
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.psi.*
 import com.intellij.ui.awt.RelativePoint
+import org.jetbrains.kotlin.idea.refactoring.toVirtualFile
 import java.awt.event.MouseEvent
 import java.io.File
 import java.util.*
@@ -131,7 +132,11 @@ abstract class RetrofitLineMarkerProvider : LineMarkerProvider {
                 }
             }
             url = urlValue.let {
-                if (it.startsWith("http")) it else "{BASE_URL}$it"
+                if (it.startsWith("http")) it else "{BASE_URL}${it.let {
+                    if (!it.startsWith("http") && !it.startsWith('/')) {
+                        "/$it"
+                    } else it
+                }}"
             }
             this@apiMethodToRequestModel.parseParametersAnnotation(this)
             if (method != RequestModel.Method.GET && !headers.keys.any { it.equals("content-type", true) }) {
@@ -169,11 +174,25 @@ abstract class RetrofitLineMarkerProvider : LineMarkerProvider {
         val ele = element.markElementToMethod()
         val reqModel = ele.apiMethodToRequestModel() ?: return
         //目录
-        val dir = ele.project.basePath + "/rest-client"
+        val dir = ele.project.basePath + "/.idea/rest-client"
         val fileName = ele.fileName()
         val targetFile = File(dir, fileName).also {
             if (!it.parentFile.exists()) {
                 it.parentFile.mkdirs()
+            }
+        }
+        val envFile = File(dir, "rest_env.json")
+        if (!envFile.exists()) {
+            envFile.writeText("""
+                |{
+                |  "dev" : {
+                |    "BASE_URL": ""
+                |  }
+                |}
+            """.trimMargin())
+            envFile.virtualFile()?.apply {
+                refresh(false, false)
+                open(ele.project)
             }
         }
 

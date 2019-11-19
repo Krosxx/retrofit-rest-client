@@ -114,7 +114,8 @@ id=1&amp;s=hello
     <change-notes><![CDATA[
     1. Support post form data
     2. Support Quick Run Retrofit Api
-    3. support api method annotation @Headers(...)
+    3. Support api method annotation @Headers(...)
+    4. Auto create rest_env.json
     ]]>
     </change-notes>
 

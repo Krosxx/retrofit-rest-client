@@ -53,7 +53,11 @@ class RunAction @JvmOverloads constructor(
         if (requestModel.hasUnfilledParam()) {
             val envConfig = EnvConfig(project)
             if (envConfig.hasConfig()) {
-                showEnvPopup(envConfig) { run(envConfig.getEnv(it)) }
+                try {
+                    showEnvPopup(envConfig) { run(envConfig.getEnv(it)) }
+                } catch (e: Exception) {
+                    writeResponse(project, document, restFile, "# Error: " + e.message)
+                }
             } else run(null)
         } else {
             run(null)
@@ -64,6 +68,10 @@ class RunAction @JvmOverloads constructor(
         val editor = textEditor?.editor ?: return
 
         val envs = envConfig.allEnv()
+        if (envs.size == 1) {
+            onChosen(envs[0])
+            return
+        }
         val envWithUrl = envs.map {
             it.toUpperCase() + " " + envConfig.getEnv(it)["BASE_URL", ""]
         }
@@ -86,7 +94,7 @@ class RunAction @JvmOverloads constructor(
             if (env != null) {//requestModel.hasUnfilledParam() == true
                 requestModel.fill(env)
             }
-            val requestEntity = requestModel.toRestFileContent(project).lines().filter { it.isNotEmpty() }.joinToString("") { if(it.startsWith("#")) "$it\n" else "# $it\n" }
+            val requestEntity = requestModel.toRestFileContent(project).lines().filter { it.isNotEmpty() }.joinToString("") { if (it.startsWith("#")) "$it\n" else "# $it\n" }
             try {
                 val startTime = System.currentTimeMillis()
                 writeResponse(project, document, restFile, """

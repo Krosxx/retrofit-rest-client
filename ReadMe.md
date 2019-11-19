@@ -6,15 +6,24 @@
 > This plugin is based on [idea-rest-client](https://github.com/danblack/idea-rest-client).
 
 
-- **Support run retrofit api interface functions directly.**
-- Supports GET, POST, PUT, DELETE, PATCH requests
-- Multiline request parameters
-- Rest file type support
-- Internally supported dynamic parameters
-- Response auto format (based on response Content-Type header)
-- Customized colors and fonts
-- Customized keyboard shortcuts
-- Comments
+> - **Support run retrofit api interface functions directly.**
+> - Supports GET, POST, PUT, DELETE, PATCH requests
+> - Multiline request parameters
+> - Rest file type support
+> - Internally supported dynamic parameters
+> - Response auto format (based on response Content-Type header)
+> - Customized colors and fonts
+> - Customized keyboard shortcuts
+> - Comments
+
+
+- [PreView](#PreView)
+- [Demo](#Demo)
+- [Retrofit Guide](#retrofit-guide)
+- [Set env params](#set-env-params)
+- [Install](#install)
+- [Thanks](#thanks)
+
 
 ### Preview
 
@@ -28,7 +37,9 @@ Content structure
 
 - Gif
 
-![](pic/GIF.gif)
+Run retrofit api method
+
+![Run retrofit api method](pic/GIF.gif)
 
 ### Demo
 
@@ -81,24 +92,42 @@ GET
   &s=hello
   ```
 
+### Retrofit Guide
+
+We can find `execte icon` on api method:
+
+![](pic/s3.png)
+
+click the icon will create a rest file in `{PROJECT_DIR}/.idea/rest-client/pkg/cls_fun.rest`
+
+```rest
+GET
+{BASE_URL}/abc
+&q={q}
+
+# Headers
+@a: {a}
+```
+
+don't forget [Set env params](#set-env-params)
 
 
 ### Set env params
 
 You can use `{name}` to reference env variable.
 
-1. To create json file `{PROJECT_DIR}/rest-client/rest_env.json`
+1. To create json file `{PROJECT_DIR}/.idea/rest-client/rest_env.json`(`Auto create`)
 
 ```json
 {
   "test": {
-    "BASE_URL": "http://localhost/test",
+    "BASE_URL": "http://localhost:8080",
     "user_id": "1",
     "a" : "a",
     "b" : "b"
   },
   "dev": {
-    "BASE_URL": "http://localhost/dev"
+    "BASE_URL": "http://xxx.xxxx.xxx"
   }
 }
 ```

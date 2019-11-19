@@ -14,7 +14,7 @@ class EnvConfig(private val project: Project) {
     private val fileName = "rest-client/rest_env.json"
 
     private val envFile by lazy {
-        File(project.basePath, fileName)
+        File(project.basePath + "/.idea", fileName)
     }
     @Suppress("UNCHECKED_CAST")
     private val envMap: Map<String, Map<String, String>>
