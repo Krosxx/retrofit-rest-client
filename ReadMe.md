@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/Jetbrains_Plugin-300+-yellow.svg?style=social)](https://plugins.jetbrains.com/plugin/13075-retrofit-rest-client-2-0/)
+[![](https://img.shields.io/badge/Jetbrains_Plugin-600+-yellow.svg?style=social)](https://plugins.jetbrains.com/plugin/13075-retrofit-rest-client-2-0/)
 
 # Retrofit Rest Client
 
