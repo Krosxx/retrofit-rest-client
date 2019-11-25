@@ -27,6 +27,10 @@
 - [Thanks](#thanks)
 
 
+**使用方法：**    
+**1. 新建rest文件，编辑即可**  
+**2. 直接在Retrofit Api 函数左侧Run 即可**
+
 ### Preview
 
 - Rest file
