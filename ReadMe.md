@@ -135,7 +135,8 @@ You can use `{name}` to reference env variable.
     "BASE_URL": "http://localhost:8080",
     //common headers
     "headers": {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "timestamp": "{TS}"
     },
     "user_id": "1",
     "a" : "a",
