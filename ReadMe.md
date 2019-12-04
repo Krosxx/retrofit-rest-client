@@ -24,18 +24,23 @@
 - [Retrofit Guide](#retrofit-guide)
 - [Set env params](#set-env-params)
 - [Install](#install)
+- [Advanced](#advanced)
 - [Thanks](#thanks)
 
 
 **使用方法：**    
-**1. 新建rest文件，编辑即可**  
-**2. 直接在Retrofit Api 函数左侧Run 即可**
+**1. 新建 `xxx.rest` 格式文件，按照 Preview 编辑即可**  
+**2. 直接在 Retrofit Api 函数左侧 `Run` 即可**
+
+**How to use：**    
+**1. New a `xxx.rest` file，and edit like preview**  
+**2. Click the `Run` icon which left in `Retrofit Api` function**
 
 ### Preview
 
 - Rest file
 
-You can create`rest` file to edit.
+You can create `rest` file to edit.
 
 Content structure
 
@@ -60,7 +65,7 @@ GET
 
 # headers
 @Content-Type: application/json
-@timestamp: {TS_SEC} # 
+@timestamp: {TS_SEC} # current time in seconds
 ```
 
 - POST
@@ -100,7 +105,7 @@ GET
 
 ### Retrofit Guide
 
-We can find `execte icon` on api method:
+We can find `execute icon` on api method:
 
 ![](pic/s3.png)
 
@@ -124,10 +129,14 @@ You can use `{name}` to reference env variable.
 
 1. To create json file `{PROJECT_DIR}/.idea/rest-client/rest_env.json`(`Auto create`)
 
-```json
+```json5
 {
   "test": {
     "BASE_URL": "http://localhost:8080",
+    //common headers
+    "headers": {
+      "Content-Type": "application/json"
+    },
     "user_id": "1",
     "a" : "a",
     "b" : "b"
@@ -151,6 +160,23 @@ IDEA or Android Studio `Settings/Plugins/Marketplace` search `Retrofit Rest Clie
 2. download [retrofit-rest-client.zip](https://github.com/Vove7/retrofit-rest-client/blob/master/retrofit-rest-client.zip) file.
 
 `Settings/Plugins/` Install Plugin from Disk.
+
+### Advanced
+
+- internal support placeholder
+
+`{TS}`
+
+```
+GET
+http://xx.xx.xx/api
+@timestamp: {TS}   # current time in milliseconds
+@timestamp_sec: {TS_SEC}   # current time in seconds
+@timestamp_custom: {TS_yyyy-MM-dd#HH:mm:ss}   # current time custom format with SimpleDateFormat (use '#' instead of ' ')
+
+```
+
+
 
 ### Thanks
 
