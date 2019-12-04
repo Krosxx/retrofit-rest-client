@@ -1,121 +1,247 @@
 <idea-plugin>
     <id>cn.vove7.ide.plugin.rest</id>
     <name>Retrofit Rest Client 2.0</name>
-    <version>2.1.4</version>
+    <version>2.1.5</version>
     <vendor email="vove7@qq.com" url="https://github.com/Vove7/retrofit-rest-client">Vove7</vendor>
 
     <description><![CDATA[
-<p> <a href="https://github.com/Vove7/retrofit-rest-client">Github Repository</a>.</p></p>
-<p>  > The best http client for Android Studio.</p>
-<p> This plugin is base on <a href="https://github.com/danblack/idea-rest-client">idea-rest-client</a>.</p>
-<ul>
-<li><strong>Support run retrofit api interface functions directly.</strong></li>
-<li>Supports GET, POST, PUT, DELETE, PATCH requests</li>
-<li>Multiline request parameters</li>
-<li>Rest file type support</li>
-<li>Internally supported dynamic parameters</li>
-<li>Response auto format (based on response Content-Type header)</li>
-<li>Customized colors and fonts</li>
-<li>Customized keyboard shortcuts</li>
-<li>Comments</li>
-</ul>
-<h3><a id="user-content-preview" class="anchor" aria-hidden="true" href="#preview"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Preview</h3>
-<ul>
-<li>Rest file</li>
-</ul>
-<p>You can create<code>rest</code> file to edit.</p>
-<p>Content structure</p>
-<p><a target="_blank" rel="noopener noreferrer" href="/Vove7/retrofit-rest-client/blob/master/pic/s1.png"><img src="https://github.com//Vove7/retrofit-rest-client/raw/master/pic/s1.png" alt="PreView" style="max-width:100%;"></a></p>
-<ul>
-<li>Gif</li>
-</ul>
-<p><a target="_blank" rel="noopener noreferrer" href="/Vove7/retrofit-rest-client/blob/master/pic/GIF.gif"><img src="https://github.com//Vove7/retrofit-rest-client/raw/master/pic/GIF.gif" alt="" style="max-width:100%;"></a></p>
-<h3><a id="user-content-demo" class="anchor" aria-hidden="true" href="#demo"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Demo</h3>
-<ul>
-<li>GET</li>
-</ul>
-<div class="highlight highlight-text-restructuredtext"><pre>GET
-{BASE_URL}/get
-# query params
-&amp;id=1
-&amp;type=2
+        <article class="markdown-body entry-content p-5" itemprop="text">
+            <h1><a id="user-content-retrofit-rest-client" class="anchor" aria-hidden="true" href="#retrofit-rest-client"><svg
+                class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+                </path>
+            </svg></a>Retrofit Rest Client</h1>
+            <blockquote>
+                <p>The best http client for Android Studio.</p>
+                <p>This plugin is based on <a href="https://github.com/danblack/idea-rest-client">idea-rest-client</a>.</p>
+            </blockquote>
+            <blockquote>
+                <ul>
+                    <li><strong>Support run retrofit api interface functions directly.</strong></li>
+                    <li>Supports GET, POST, PUT, DELETE, PATCH requests</li>
+                    <li>Multiline request parameters</li>
+                    <li>Rest file type support</li>
+                    <li>Internally supported dynamic parameters</li>
+                    <li>Response auto format (based on response Content-Type header)</li>
+                    <li>Customized colors and fonts</li>
+                    <li>Customized keyboard shortcuts</li>
+                    <li>Comments</li>
+                </ul>
+            </blockquote>
+            <ul>
+                <li><a href="#PreView">PreView</a></li>
+                <li><a href="#Demo">Demo</a></li>
+                <li><a href="#retrofit-guide">Retrofit Guide</a></li>
+                <li><a href="#set-env-params">Set env params</a></li>
+                <li><a href="#install">Install</a></li>
+                <li><a href="#advanced">Advanced</a></li>
+                <li><a href="#thanks">Thanks</a></li>
+            </ul>
+            <p><strong>使用方法：</strong><br>
+                <strong>1. 新建 <code>xxx.rest</code> 格式文件，按照 Preview 编辑即可</strong><br>
+                <strong>2. 直接在 Retrofit Api 函数左侧 <code>Run</code> 即可</strong></p>
+            <p><strong>How to use：</strong><br>
+                <strong>1. New a <code>xxx.rest</code> file，and edit like preview</strong><br>
+                <strong>2. Click the <code>Run</code> icon which left in <code>Retrofit Api</code> function</strong></p>
+            <h3><a id="user-content-preview" class="anchor" aria-hidden="true" href="#preview"><svg class="octicon octicon-link"
+                viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+                </path>
+            </svg></a>Preview</h3>
+            <ul>
+                <li>Rest file</li>
+            </ul>
+            <p>You can create <code>rest</code> file to edit.</p>
+            <p>Content structure</p>
+            <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Vove7/retrofit-rest-client/blob/master/pic/s1.png"><img
+                src="https://github.com/Vove7/retrofit-rest-client/raw/master/pic/s1.png" alt="PreView" style="max-width:100%;"></a></p>
+            <ul>
+                <li>Gif</li>
+            </ul>
+            <p>Run retrofit api method</p>
+            <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Vove7/retrofit-rest-client/blob/master/pic/GIF.gif"><img
+                src="https://github.com/Vove7/retrofit-rest-client/raw/master/pic/GIF.gif" alt="Run retrofit api method"
+                style="max-width:100%;"></a></p>
+            <h3><a id="user-content-demo" class="anchor" aria-hidden="true" href="#demo"><svg class="octicon octicon-link"
+                viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+                </path>
+            </svg></a>Demo</h3>
+            <ul>
+                <li>GET</li>
+            </ul>
+            <div class="highlight highlight-text-restructuredtext">
+                <pre>GET
+                    {BASE_URL}/get
+                    # query params
+                    &amp;id=1
+                    &amp;type=2
 
-# headers
-@Content-Type: application/json
-@timestamp: {TS_SEC} # </pre></div>
-<ul>
-<li>
-<p>POST</p>
-<ul>
-<li>Json</li>
-</ul>
-<p>Apponit content-type: <code>@Content-Type: application/json</code></p>
-<div class="highlight highlight-text-restructuredtext"><pre>POST
-{BASE_URL}/post_json
+                    # headers
+                    @Content-Type: application/json
+                    @timestamp: {TS_SEC} # current time in seconds</pre>
+            </div>
+            <ul>
+                <li>
+                    <p>POST</p>
+                    <ul>
+                        <li>Json</li>
+                    </ul>
+                    <p>Apponit content-type: <code>@Content-Type: application/json</code></p>
+                    <div class="highlight highlight-text-restructuredtext">
+                        <pre>POST
+                            {BASE_URL}/post_json
 
-# request headers
-@Content-Type: application/json
+                            # request headers
+                            @Content-Type: application/json
 
-# request body
-{"a":"{a}","b":"{b}"}</pre></div>
-<ul>
-<li>Form</li>
-</ul>
-<p>Apponit content-type: <code>@Content-Type: application/x-www-form-urlencoded</code>, and last line is form data(can be multiple line)</p>
-<div class="highlight highlight-text-restructuredtext"><pre>POST
-{BASE_URL}/post_form/{user_id}
+                            # request body
+                            {"a":"{a}","b":"{b}"}</pre>
+                    </div>
+                    <ul>
+                        <li>Form</li>
+                    </ul>
+                    <p>Apponit content-type: <code>@Content-Type: application/x-www-form-urlencoded</code>, and last line is
+                        form data(can be multiple line)</p>
+                    <div class="highlight highlight-text-restructuredtext">
+                        <pre>POST
+                            {BASE_URL}/post_form/{user_id}
 
-# Headers:
-@Content-Type: application/x-www-form-urlencoded
+                            # Headers:
+                            @Content-Type: application/x-www-form-urlencoded
 
-# Form data separate with '&amp;'
-id=1&amp;s=hello
+                            # Form data separate with '&amp;'
+                            id=1&amp;s=hello
 
-# also can be:
-&amp;id=1
-&amp;s=hello</pre></div>
-</li>
-</ul>
-<h3><a id="user-content-set-env-params" class="anchor" aria-hidden="true" href="#set-env-params"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Set env params</h3>
-<p>You can use <code>{name}</code> to reference env variable.</p>
-<ol>
-<li>To create json file <code>{PROJECT_DIR}/rest-client/rest_env.json</code></li>
-</ol>
-<div class="highlight highlight-source-json"><pre>{
-  <span class="pl-s"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span>: {
-    <span class="pl-s"><span class="pl-pds">"</span>BASE_URL<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://localhost/test<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>user_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>,
-    <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>
-  },
-  <span class="pl-s"><span class="pl-pds">"</span>dev<span class="pl-pds">"</span></span>: {
-    <span class="pl-s"><span class="pl-pds">"</span>BASE_URL<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>http://localhost/dev<span class="pl-pds">"</span></span>
-  }
-}</pre></div>
-<ol start="2">
-<li>chose env to tun</li>
-</ol>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com//Vove7/retrofit-rest-client/blob/master/pic/s2.png"><img src="https://github.com//Vove7/retrofit-rest-client/raw/master/pic/s2.png" alt="" style="max-width:100%;"></a></p>
-<h3><a id="user-content-install" class="anchor" aria-hidden="true" href="#install"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install</h3>
-<p>TODO</p>
-<h3><a id="user-content-thanks" class="anchor" aria-hidden="true" href="#thanks"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Thanks</h3>
-<p>This plugin is base on <a href="https://github.com/danblack/idea-rest-client">idea-rest-client</a>.</p>
-<h3><a id="user-content-todo" class="anchor" aria-hidden="true" href="#todo"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>TODO</h3>
-<ul>
-<li>
-<p>Multiple requests in one file. [like http client]</p>
-</li>
-<li>
-<p>Response result output tu run window.  [like http client]</p>
-</li>
-</ul>
-]]></description>
+                            # also can be:
+                            &amp;id=1
+                            &amp;s=hello</pre>
+                    </div>
+                </li>
+            </ul>
+            <h3><a id="user-content-retrofit-guide" class="anchor" aria-hidden="true" href="#retrofit-guide"><svg
+                class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+                </path>
+            </svg></a>Retrofit Guide</h3>
+            <p>We can find <code>execute icon</code> on api method:</p>
+            <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Vove7/retrofit-rest-client/blob/master/pic/s3.png"><img
+                src="https://github.com/Vove7/retrofit-rest-client/raw/master/pic/s3.png" alt="" style="max-width:100%;"></a></p>
+            <p>click the icon will create a rest file in <code>{PROJECT_DIR}/.idea/rest-client/pkg/cls_fun.rest</code></p>
+            <div class="highlight highlight-text-restructuredtext">
+                <pre>GET
+                    {BASE_URL}/abc
+                    &amp;q={q}
+
+                    # Headers
+                    @a: {a}</pre>
+            </div>
+            <p>don't forget <a href="#set-env-params">Set env params</a></p>
+            <h3><a id="user-content-set-env-params" class="anchor" aria-hidden="true" href="#set-env-params"><svg
+                class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+                </path>
+            </svg></a>Set env params</h3>
+            <p>You can use <code>{name}</code> to reference env variable.</p>
+            <ol>
+                <li>To create json file <code>{PROJECT_DIR}/.idea/rest-client/rest_env.json</code>(<code>Auto create</code>)
+                </li>
+            </ol>
+            <div class="highlight highlight-source-js">
+                <pre>{
+                    <span class="pl-s"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+                    <span class="pl-s"><span class="pl-pds">"</span>BASE_URL<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>http://localhost:8080<span class="pl-pds">"</span></span>,
+                    <span class="pl-c"><span class="pl-c">//</span>common headers</span>
+                    <span class="pl-s"><span class="pl-pds">"</span>headers<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+                    <span class="pl-s"><span class="pl-pds">"</span>Content-Type<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>application/json<span class="pl-pds">"</span></span>
+                    },
+                    <span class="pl-s"><span class="pl-pds">"</span>user_id<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>
+                    },
+                    <span class="pl-s"><span class="pl-pds">"</span>dev<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+                    <span class="pl-s"><span class="pl-pds">"</span>BASE_URL<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>http://xxx.xxxx.xxx<span class="pl-pds">"</span></span>
+                    }
+                    }</pre>
+            </div>
+            <ol start="2">
+                <li>Choose env to tun</li>
+            </ol>
+            <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Vove7/retrofit-rest-client/blob/master/pic/s2.png"><img
+                src="https://github.com/Vove7/retrofit-rest-client/raw/master/pic/s2.png" alt="" style="max-width:100%;"></a></p>
+            <h3><a id="user-content-install" class="anchor" aria-hidden="true" href="#install"><svg class="octicon octicon-link"
+                viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+                </path>
+            </svg></a>Install</h3>
+            <ol>
+                <li>Marketplace</li>
+            </ol>
+            <p>IDEA or Android Studio <code>Settings/Plugins/Marketplace</code> search <code>Retrofit Rest Client</code></p>
+            <ol start="2">
+                <li>download <a
+                    href="https://github.com/Vove7/retrofit-rest-client/blob/master/retrofit-rest-client.zip">retrofit-rest-client.zip</a>
+                    file.</li>
+            </ol>
+            <p><code>Settings/Plugins/</code> Install Plugin from Disk.</p>
+            <h3><a id="user-content-advanced" class="anchor" aria-hidden="true" href="#advanced"><svg
+                class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+                </path>
+            </svg></a>Advanced</h3>
+            <ul>
+                <li>internal support placeholder</li>
+            </ul>
+            <p><code>{TS}</code></p>
+            <pre><code>GET
+                http://xx.xx.xx/api
+                @timestamp: {TS}   # current time in milliseconds
+                @timestamp_sec: {TS_SEC}   # current time in seconds
+                @timestamp_custom: {TS_yyyy-MM-dd#HH:mm:ss}   # current time custom format with SimpleDateFormat (use '#' instead of ' ')
+
+            </code></pre>
+            <h3><a id="user-content-thanks" class="anchor" aria-hidden="true" href="#thanks"><svg class="octicon octicon-link"
+                viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+                </path>
+            </svg></a>Thanks</h3>
+            <p>This plugin is based on <a href="https://github.com/danblack/idea-rest-client">idea-rest-client</a>.</p>
+            <h3><a id="user-content-todo" class="anchor" aria-hidden="true" href="#todo"><svg class="octicon octicon-link"
+                viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+                </path>
+            </svg></a>TODO</h3>
+            <ul>
+                <li>
+                    <p>Multiple requests in one file. [like http client]</p>
+                </li>
+                <li>
+                    <p>Response result output tu run window. [like http client]</p>
+                </li>
+            </ul>
+        </article>
+        ]]>
+    </description>
 
     <change-notes><![CDATA[
-    1. Support post form data
-    2. Support Quick Run Retrofit Api
-    3. Support api method annotation @Headers(...)
-    4. Auto create rest_env.json
+    1. Support post form data<br>
+    2. Support Quick Run Retrofit Api<br>
+    3. Support api method annotation @Headers(...)<br>
+    4. Auto create rest_env.json<br>
+    5. Rest Env config support set common headers<br>
     ]]>
     </change-notes>
 
