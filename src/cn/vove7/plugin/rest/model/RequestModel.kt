@@ -5,6 +5,7 @@ import cn.vove7.plugin.rest.tool.get
 import cn.vove7.plugin.rest.tool.getFormattedResponse
 import cn.vove7.plugin.rest.tool.joinToString
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.intellij.openapi.project.Project
 import java.text.SimpleDateFormat
 import java.util.*
@@ -95,7 +96,7 @@ class RequestModel {
     //query
     //header
     //param
-    fun fill(env: Map<String, Any>) {
+    fun fill(env: JsonObject) {
         replaceString(url, env) { p, v ->
             url = url.replace(p, v)
         }
@@ -110,11 +111,11 @@ class RequestModel {
     }
 
     //替换String 类型
-    private fun replaceString(s: String, env: Map<String, Any>, onReplace: (p: String, v: String) -> Unit) {
+    private fun replaceString(s: String, env: JsonObject, onReplace: (p: String, v: String) -> Unit) {
         placeholderParamRegex.findAll(s).forEach {
             val p = it.groupValues[1]
-            if (p in env) {
-                onReplace(it.value, env[p].toString())
+            if (p in env.keySet()) {
+                onReplace(it.value, env[p].asString)
             } else {
                 checkSupport(p)?.also { v ->
                     onReplace(it.value, v)
@@ -125,12 +126,12 @@ class RequestModel {
     }
 
     //替换Map类型
-    private fun replaceMap(map: MutableMap<String, String>, env: Map<String, Any>) {
+    private fun replaceMap(map: MutableMap<String, String>, env: JsonObject) {
         map.forEach { (t, u) ->
             if (u.startsWith('{') && u.endsWith('}')) {
                 val pname = u[1, u.length - 1]
-                if (pname in env) {
-                    map[t] = env[pname] as String
+                if (pname in env.keySet()) {
+                    map[t] = env[pname].asString
                 } else {
                     checkSupport(pname)?.also { v ->
                         map[t] = v

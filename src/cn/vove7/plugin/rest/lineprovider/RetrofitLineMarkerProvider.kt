@@ -14,7 +14,6 @@ import com.intellij.openapi.ui.ex.MessagesEx
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.psi.*
 import com.intellij.ui.awt.RelativePoint
-import org.jetbrains.kotlin.idea.refactoring.toVirtualFile
 import java.awt.event.MouseEvent
 import java.io.File
 import java.util.*
@@ -185,8 +184,11 @@ abstract class RetrofitLineMarkerProvider : LineMarkerProvider {
         if (!envFile.exists()) {
             envFile.writeText("""
                 |{
-                |  "dev" : {
-                |    "BASE_URL": ""
+                |  "dev": {
+                |    "BASE_URL": "",
+                |    "headers": {
+                |      
+                |    }
                 |  }
                 |}
             """.trimMargin())

@@ -1,5 +1,6 @@
 package cn.vove7.plugin.rest.tool
 
+import com.google.gson.JsonObject
 import com.intellij.lang.Language
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileEditor.FileEditorManager
@@ -100,4 +101,14 @@ fun File.virtualFile(): VirtualFile? {
 
 object arr {
     inline operator fun <reified T> get(vararg eles: T): Array<out T> = arrayOf(*eles)
+}
+
+operator fun JsonObject.contains(k: String): Boolean = k in keySet()
+
+fun JsonObject.toStringMap(): Map<String, String> {
+    val map = mutableMapOf<String, String>()
+    keySet().forEach {
+        map[it] = get(it).asString
+    }
+    return map
 }

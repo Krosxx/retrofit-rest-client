@@ -6,8 +6,10 @@ import cn.vove7.plugin.rest.model.RequestModel
 import cn.vove7.plugin.rest.tool.EnvConfig
 import cn.vove7.plugin.rest.tool.RequestExecutor
 import cn.vove7.plugin.rest.tool.getFormattedResponse
+import cn.vove7.plugin.rest.tool.toStringMap
+import cn.vove7.plugin.rest.tool.contains
+import com.google.gson.JsonObject
 import com.intellij.icons.AllIcons
-import com.intellij.lang.Language
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
@@ -17,9 +19,6 @@ import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.psi.PsiDocumentManager
-import com.intellij.psi.PsiFile
-import com.intellij.psi.codeStyle.CodeStyleManager
-import com.intellij.psi.impl.PsiFileFactoryImpl
 import com.intellij.ui.awt.RelativePoint
 import java.io.IOException
 import java.time.LocalDateTime
@@ -46,7 +45,7 @@ class RunAction @JvmOverloads constructor(
         val restFile = getRestFile(project, document) ?: return
         val requestModel = getRequestModel(restFile)
 
-        val run = fun(env: Map<String, Any>?) {
+        val run = fun(env: JsonObject?) {
             runWithConfig(env, project, requestModel, document, restFile)
         }
 
@@ -73,18 +72,18 @@ class RunAction @JvmOverloads constructor(
             return
         }
         val envWithUrl = envs.map {
-            it.toUpperCase() + " " + envConfig.getEnv(it)["BASE_URL", ""]
+            it.toUpperCase() + " " + (envConfig.getEnv(it)["BASE_URL", ""] ?: "")
         }
         JBPopupFactory.getInstance().createPopupChooserBuilder<String>(envWithUrl).setTitle("Choose env").setItemChosenCallback {
             onChosen.invoke(envs[envWithUrl.indexOf(it)])
         }.createPopup().show(RelativePoint.getNorthWestOf(editor.component))
     }
 
-    operator fun <K, V> Map<K, V>.get(k: K, dv: V): V = getOrDefault(k, dv)
+    operator fun JsonObject?.get(k: String, dv: String): String? = this?.get(k)?.asString
 
 
     private fun runWithConfig(
-            env: Map<String, Any>?,
+            env: JsonObject?,
             project: Project,
             requestModel: RequestModel,
             document: Document,
@@ -92,6 +91,10 @@ class RunAction @JvmOverloads constructor(
     ) {
         ApplicationManager.getApplication().executeOnPooledThread a@{
             if (env != null) {//requestModel.hasUnfilledParam() == true
+                if ("headers" in env) {
+                    requestModel.headers.putAll((env.get("headers") as JsonObject).toStringMap().filter { it.key !in requestModel.headers })
+                }
+                env.remove("headers")
                 requestModel.fill(env)
             }
             val requestEntity = requestModel.toRestFileContent(project).lines().filter { it.isNotEmpty() }.joinToString("") { if (it.startsWith("#")) "$it\n" else "# $it\n" }

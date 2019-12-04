@@ -1,12 +1,10 @@
 package cn.vove7.plugin.rest.filetype;
 
-import com.google.common.net.UrlEscapers;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 import cn.vove7.plugin.rest.model.RequestModel;
 import cn.vove7.plugin.rest.psi.RestEHeader;
@@ -21,8 +19,6 @@ import cn.vove7.plugin.rest.psi.RestRequestBody;
  * @author danblack
  */
 public class RequestParser {
-
-    private static final Function<String, String> encoder = v -> UrlEscapers.urlFormParameterEscaper().escape(v);
 
     private static RequestModel.Method getMethod(cn.vove7.plugin.rest.psi.RestRequest request) {
         RestEMethod method = request.getEMethod();
