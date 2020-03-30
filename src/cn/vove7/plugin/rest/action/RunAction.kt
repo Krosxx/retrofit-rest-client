@@ -3,16 +3,13 @@ package cn.vove7.plugin.rest.action
 import cn.vove7.plugin.rest.filetype.RequestParser
 import cn.vove7.plugin.rest.filetype.RestFile
 import cn.vove7.plugin.rest.model.RequestModel
-import cn.vove7.plugin.rest.tool.EnvConfig
-import cn.vove7.plugin.rest.tool.RequestExecutor
-import cn.vove7.plugin.rest.tool.getFormattedResponse
-import cn.vove7.plugin.rest.tool.toStringMap
-import cn.vove7.plugin.rest.tool.contains
+import cn.vove7.plugin.rest.tool.*
 import com.google.gson.JsonObject
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.TransactionGuard
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.fileEditor.TextEditor
@@ -20,6 +17,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.ui.awt.RelativePoint
+import java.awt.EventQueue
+import java.io.BufferedOutputStream
+import java.io.File
 import java.io.IOException
 import java.time.LocalDateTime
 
@@ -97,7 +97,10 @@ class RunAction @JvmOverloads constructor(
                 env.remove("headers")
                 requestModel.fill(env)
             }
+
             val requestEntity = requestModel.toRestFileContent(project).lines().filter { it.isNotEmpty() }.joinToString("") { if (it.startsWith("#")) "$it\n" else "# $it\n" }
+
+            var targetFileLazy: Lazy<File>? = null
             try {
                 val startTime = System.currentTimeMillis()
                 writeResponse(project, document, restFile, """
@@ -106,21 +109,98 @@ class RunAction @JvmOverloads constructor(
                     |# Executing request...
                 """.trimMargin())
                 val response = executor!!.execute(requestModel)
-                writeResponse(project, document, restFile, "$requestEntity # Reading response...")
                 val headers = "\n# status " + response.status + "\n" + response.headersString()
-                val text = getFormattedResponse(project, response.contentType, response.body)
-                val duration = System.currentTimeMillis() - startTime
-                writeResponse(project, document, restFile, """
+
+                val cl = response.body?.contentLength() ?: 0
+
+                targetFileLazy = lazy {
+                    val dlDir = File(project.basePath, ".idea/rest-client/download/")
+                    if (!dlDir.exists()) {
+                        dlDir.mkdirs()
+                    }
+                    File(dlDir, restFile.name[0, -5] + response.getFilePostfix())
+                }
+
+                if (cl shr 20 > 3 || response.isUnText()) {//> 3M
+                    //download file to {PROJECT_DIR}/.idea/rest-client/download/{fileName}
+                    val targetFile by targetFileLazy
+                    if (targetFile.exists()) {
+                        targetFile.delete()
+                    }
+                    targetFile.createNewFile()
+                    targetFile.virtualFile()?.refresh(true, false)
+
+                    writeResponse(project, document, restFile,
+                            """$requestEntity 
+                                |# Response is too large
+                                |# downloading to [${targetFile.absolutePath}]...
+                                |# [${"." * 50}]""".trimMargin())
+
+
+                    var lastNotify = 0L
+
+                    BufferedOutputStream(targetFile.outputStream()).use { os ->
+                        response.body!!.source().inputStream().use { src ->
+                            val bs = ByteArray(1024)
+
+                            var len: Int
+                            var readLength = 0
+                            while (src.read(bs).also { len = it } > 0) {
+                                readLength += len
+                                os.write(bs, 0, len)
+                                //进度
+                                val progress = readLength.toDouble() / cl
+                                val p = (50 * progress).toInt()
+                                val now = System.currentTimeMillis()
+                                if (now - lastNotify > 800) {
+                                    lastNotify = now
+                                    writeResponse(project, document, restFile,
+                                            """$requestEntity
+                                        |$headers
+                                        |# Response is too large
+                                        |# downloading to [${targetFile.absolutePath}]...
+                                        |# [${"#" * p}${"." * (50 - p)}]""".trimMargin())
+                                }
+                            }
+                            val duration = System.currentTimeMillis() - startTime
+                            writeResponse(project, document, restFile,
+                                    """$requestEntity 
+                                    |$headers
+                                    |# Duration: $duration ms
+                                    |# Response is too large
+                                    |# file download complete [${targetFile.absolutePath}]
+                                    |# [${"#" * 50}]""".trimMargin())
+                        }
+                    }
+                    if (Thread.currentThread().isInterrupted) return@a
+                    EventQueue.invokeLater {
+                        targetFile.virtualFile()?.apply {
+                            refresh(true, false)
+                            open(project)
+                        }
+                    }
+                } else {
+                    writeResponse(project, document, restFile, "$requestEntity # Reading response...")
+                    val text = getFormattedResponse(project, response.contentType, response.body?.string())
+                    val duration = System.currentTimeMillis() - startTime
+                    writeResponse(project, document, restFile, """
                     |# Duration: $duration ms
                     |$requestEntity
                     |$headers$text
                     |""".trimMargin()
-                )
+                    )
+                }
             } catch (e1: Exception) {
                 if (e1 !is IOException) {
                     e1.printStackTrace()
                 }
+                if (targetFileLazy?.isInitialized() == true) {
+                    targetFileLazy.value.delete()
+                    targetFileLazy.value.parentFile.virtualFile()?.refresh(true, false)
+                }
                 writeResponse(project, document, restFile, "$requestEntity\n# Error: " + e1.message)
+            } finally {
+                executor!!.state = RequestExecutor.State.WAITING
             }
         }
     }
@@ -167,3 +247,4 @@ class RunAction @JvmOverloads constructor(
 
     }
 }
+

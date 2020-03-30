@@ -29,11 +29,11 @@ object Requests {
             val type = ct.toMediaType()
             (request.body ?: "").toRequestBody(type)
         }
-        return when {
-            request.method == RequestModel.Method.POST -> reqBuilder.post(body).build()
-            request.method == RequestModel.Method.PUT -> reqBuilder.put(body).build()
-            request.method == RequestModel.Method.PATCH -> reqBuilder.patch(body).build()
-            request.method == RequestModel.Method.DELETE -> reqBuilder.delete(body).build()
+        return when (request.method) {
+            RequestModel.Method.POST -> reqBuilder.post(body).build()
+            RequestModel.Method.PUT -> reqBuilder.put(body).build()
+            RequestModel.Method.PATCH -> reqBuilder.patch(body).build()
+            RequestModel.Method.DELETE -> reqBuilder.delete(body).build()
             else -> reqBuilder.build()
         }
     }

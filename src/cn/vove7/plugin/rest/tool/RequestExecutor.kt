@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets
 import java.util.ArrayList
 
 class RequestExecutor {
-    private var state = State.WAITING
+    var state = State.WAITING
 
     private val httpClient = createHttpClient()
 
@@ -25,7 +25,7 @@ class RequestExecutor {
     val isWaiting: Boolean
         get() = state == State.WAITING
 
-    internal enum class State {
+    enum class State {
         WAITING,
         RUNNING,
         STOPPING
@@ -50,9 +50,8 @@ class RequestExecutor {
                     response.code,
                     getHeaders(response),
                     getContentType(response),
-                    response.body?.string())
+                    response.body)
         } finally {
-            state = State.WAITING
         }
     }
 

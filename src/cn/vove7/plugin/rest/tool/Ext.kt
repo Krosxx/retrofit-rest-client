@@ -112,3 +112,7 @@ fun JsonObject.toStringMap(): Map<String, String> {
     }
     return map
 }
+
+operator fun String.times(i: Int): String = buildString {
+    repeat(i) { append(this@times) }
+}

@@ -17,6 +17,8 @@
 > - Customized colors and fonts
 > - Customized keyboard shortcuts
 > - Comments
+> - Support large body download
+> - Support un-text download and preview
 
 
 - [PreView](#PreView)
