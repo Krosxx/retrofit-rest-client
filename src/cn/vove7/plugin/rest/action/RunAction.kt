@@ -134,7 +134,7 @@ class RunAction @JvmOverloads constructor(
                             """$requestEntity 
                                 |# Response is too large
                                 |# downloading to [${targetFile.absolutePath}]...
-                                |# [${"." * 50}]""".trimMargin())
+                                |# [${if (cl == 0L) "0" else "." * 50}]""".trimMargin())
 
 
                     var lastNotify = 0L
@@ -149,8 +149,13 @@ class RunAction @JvmOverloads constructor(
                                 readLength += len
                                 os.write(bs, 0, len)
                                 //进度
-                                val progress = readLength.toDouble() / cl
-                                val p = (50 * progress).toInt()
+                                val pt = if (cl != 0L) {
+                                    val progress = readLength.toDouble() / cl
+                                    val p = (50 * progress).toInt()
+                                    "#" * p + ("." * (50 - p))
+                                } else {
+                                    readLength.toString()
+                                }
                                 val now = System.currentTimeMillis()
                                 if (now - lastNotify > 800) {
                                     lastNotify = now
@@ -159,7 +164,7 @@ class RunAction @JvmOverloads constructor(
                                         |$headers
                                         |# Response is too large
                                         |# downloading to [${targetFile.absolutePath}]...
-                                        |# [${"#" * p}${"." * (50 - p)}]""".trimMargin())
+                                        |# [${pt}]""".trimMargin())
                                 }
                             }
                             val duration = System.currentTimeMillis() - startTime
