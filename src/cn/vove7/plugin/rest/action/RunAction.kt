@@ -121,7 +121,7 @@ class RunAction @JvmOverloads constructor(
                     File(dlDir, restFile.name[0, -5] + response.getFilePostfix())
                 }
 
-                if (cl shr 20 > 3 || response.isUnText()) {//> 3M
+                if (cl shr 20 > 3 || response.isChunked || response.isUnText()) {//> 3M
                     //download file to {PROJECT_DIR}/.idea/rest-client/download/{fileName}
                     val targetFile by targetFileLazy
                     if (targetFile.exists()) {

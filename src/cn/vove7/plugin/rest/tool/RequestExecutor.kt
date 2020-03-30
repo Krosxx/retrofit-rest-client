@@ -48,6 +48,7 @@ class RequestExecutor {
             val response = httpCall!!.execute()
             return ResponseModel(
                     response.code,
+                    response.header("Transfer-Encoding", "") == "chunked",
                     getHeaders(response),
                     getContentType(response),
                     response.body)

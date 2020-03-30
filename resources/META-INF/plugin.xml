@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>cn.vove7.ide.plugin.rest</id>
     <name>Retrofit Rest Client 2.0</name>
-    <version>2.2.0</version>
+    <version>2.2.1</version>
     <vendor email="vove7@qq.com" url="https://github.com/Vove7/retrofit-rest-client">Vove7</vendor>
 
     <description><![CDATA[
@@ -249,7 +249,7 @@
     4. Auto create rest_env.json<br>
     5. Rest Env config support set common headers<br>
     6. Support large body download
-    7. Support un-text download and preview
+    7. Support chunked file download and preview
     ]]>
     </change-notes>
 

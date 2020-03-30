@@ -4,6 +4,7 @@ import okhttp3.ResponseBody
 
 class ResponseModel(
         val status: Int,
+        val isChunked:Boolean,
         val headers: List<String>,
         val contentType: String?,
         val body: ResponseBody?
