@@ -13,6 +13,7 @@ import com.intellij.openapi.vfs.impl.http.HttpVirtualFile;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiManager;
 import com.intellij.util.messages.MessageBusConnection;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -60,7 +61,8 @@ public class RestProjectComponent extends AbstractProjectComponent {
             return false;
         }
         final FileViewProvider provider = PsiManager.getInstance(project).findViewProvider(file);
-        return provider != null && RestLanguage.INSTANCE == provider.getBaseLanguage();
+        return file.getName().endsWith("." + RestFileType.INSTANCE.getDefaultExtension())
+                || provider != null && RestLanguage.INSTANCE == provider.getBaseLanguage();
     }
 
 

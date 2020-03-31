@@ -7,7 +7,9 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.psi.impl.source.tree.injected.MultiHostRegistrarImpl;
+
 import org.jetbrains.annotations.NotNull;
+
 import cn.vove7.plugin.rest.psi.*;
 import cn.vove7.plugin.rest.psi.impl.RestElementImpl;
 
@@ -26,9 +28,10 @@ public class RestHostInjector implements MultiHostInjector {
         if (context instanceof RestResponseBody) {
             headers = ((RestResponse) context.getParent()).getHeaders();
         } else if (context instanceof RestRequestBody) {
-            //headers = ((RestRequest) context.getParent()).getHeaders();
+            headers = ((RestRequest) context.getParent()).getHeaders();
         }
-        if (headers != null) {
+        //OOM  1 char 2 bytes  2M = 2<<20
+        if (headers != null && context.getTextRange().getLength() < (1 << 20)) {
             String contentType = getContentType(headers);
             if (contentType != null) {
                 Collection<Language> langList = Language.findInstancesByMimeType(contentType);
@@ -41,11 +44,19 @@ public class RestHostInjector implements MultiHostInjector {
         }
     }
 
+    private boolean isThunked(@NotNull RestHeaders headers) {
+        return "chunked".equals(getHeader(headers, "Transfer-Encoding"));
+    }
+
     private String getContentType(@NotNull RestHeaders headers) {
+        return getHeader(headers, "Content-Type");
+    }
+
+    private String getHeader(@NotNull RestHeaders headers, String key) {
         if (headers.isValid()) {
             for (RestEHeader eHeader : headers.getEHeaderList()) {
                 String header = eHeader.getText();
-                if (header.startsWith("@Content-Type")) {
+                if (header.startsWith("@" + key)) {
                     int colonIndex = header.indexOf(":");
                     if (colonIndex >= 0) {
                         String contentType = header.substring(colonIndex + 1);
@@ -60,6 +71,7 @@ public class RestHostInjector implements MultiHostInjector {
         }
         return null;
     }
+
 
     @NotNull
     @Override

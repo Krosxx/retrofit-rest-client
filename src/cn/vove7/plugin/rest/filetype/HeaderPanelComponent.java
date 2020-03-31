@@ -42,7 +42,6 @@ public class HeaderPanelComponent implements Disposable {
     }
 
     private final ActionToolbarImpl panel;
-    private final RequestExecutor requestExecutor;
     private final RunAction runAction;
     private final StopAction stopAction;
     private final Editor editor;
@@ -61,7 +60,7 @@ public class HeaderPanelComponent implements Disposable {
         editor = textEditor.getEditor();
         editor.putUserData(HEADER_PANEL_KEY, this);
 
-        requestExecutor = new RequestExecutor();
+        RequestExecutor requestExecutor = new RequestExecutor();
 
         runAction = new RunAction(requestExecutor, textEditor);
         stopAction = new StopAction(requestExecutor);

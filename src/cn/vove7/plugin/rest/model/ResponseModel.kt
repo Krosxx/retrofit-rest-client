@@ -4,7 +4,7 @@ import okhttp3.ResponseBody
 
 class ResponseModel(
         val status: Int,
-        val isChunked:Boolean,
+        val isChunked: Boolean,
         val headers: List<String>,
         val contentType: String?,
         val body: ResponseBody?
@@ -328,14 +328,16 @@ class ResponseModel(
     )[contentType] ?: ""
 
     fun isUnText(): Boolean {
+        return !isTextBody()
+    }
+
+    fun isTextBody():Boolean {
         //TODO
         contentType ?: return false
-        return contentType.startsWith("audio/") ||
-                contentType.startsWith("video/") ||
-                contentType.startsWith("image/") ||
-                contentType == "application/vnd.android.package-archive" ||
-                contentType == "application/x-silverlight-app" ||
-                contentType == "application/x-msdownload"
+
+        return contentType.startsWith("text/") ||
+                contentType == "application/json"
+
     }
 
 }
