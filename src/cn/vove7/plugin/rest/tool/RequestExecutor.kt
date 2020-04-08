@@ -1,16 +1,15 @@
 package cn.vove7.plugin.rest.tool
 
 import cn.vove7.plugin.rest.model.RequestModel
+import cn.vove7.plugin.rest.model.ResponseModel
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.util.UserDataHolder
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Response
-import cn.vove7.plugin.rest.model.ResponseModel
-
 import java.io.IOException
 import java.nio.charset.StandardCharsets
-import java.util.ArrayList
+import java.util.*
 
 class RequestExecutor {
     var state = State.WAITING
@@ -51,9 +50,23 @@ class RequestExecutor {
                     response.header("Transfer-Encoding", "") == "chunked",
                     getHeaders(response),
                     getContentType(response),
+                    getFilename(response),
                     response.body)
         } finally {
         }
+    }
+
+    private fun getFilename(response: Response): String? {
+        val header = response.header("Content-Disposition")
+        if (header != null) {
+            val semicolonIndex = header.indexOf("filename=")
+            return if (semicolonIndex >= 0) {
+                header.substring(semicolonIndex + 9).trim()
+            } else {
+                null
+            }
+        }
+        return null
     }
 
     private fun getContentType(response: Response): String? {

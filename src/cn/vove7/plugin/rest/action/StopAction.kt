@@ -11,10 +11,10 @@ class StopAction @JvmOverloads constructor(
 ) : AnAction(AllIcons.Actions.Suspend) {
 
     override fun update(e: AnActionEvent) {
+        super.update(e)
         if (executor == null) {
             e.presentation.isEnabled = false
         } else {
-            super.update(e)
             e.presentation.isEnabled = executor.isRunning
         }
     }

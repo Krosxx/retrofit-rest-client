@@ -1,5 +1,8 @@
 package cn.vove7.plugin.rest.filetype;
 
+import com.intellij.icons.AllIcons;
+import com.intellij.ide.browsers.WebBrowser;
+import com.intellij.ide.browsers.WebBrowserManager;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionPlaces;
@@ -14,11 +17,16 @@ import com.intellij.openapi.keymap.KeymapManager;
 import com.intellij.openapi.keymap.KeymapManagerListener;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.Key;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 
+import javax.swing.Icon;
+
+import cn.vove7.plugin.rest.action.OpenDlFileAction;
 import cn.vove7.plugin.rest.action.RunAction;
 import cn.vove7.plugin.rest.action.StopAction;
 import cn.vove7.plugin.rest.tool.RequestExecutor;
@@ -44,6 +52,7 @@ public class HeaderPanelComponent implements Disposable {
     private final ActionToolbarImpl panel;
     private final RunAction runAction;
     private final StopAction stopAction;
+    private final OpenDlFileAction openDlFileAction;
     private final Editor editor;
     private TextEditor textEditor;
     private Keymap keymap;
@@ -64,6 +73,7 @@ public class HeaderPanelComponent implements Disposable {
 
         runAction = new RunAction(requestExecutor, textEditor);
         stopAction = new StopAction(requestExecutor);
+        openDlFileAction = new OpenDlFileAction(requestExecutor, textEditor);
 
         panel = createPanel(createActionGroup());
         getFileEditorManager().addTopComponent(textEditor, panel);
@@ -91,6 +101,7 @@ public class HeaderPanelComponent implements Disposable {
         DefaultActionGroup group = new DefaultActionGroup("rest-request", false);
         group.add(runAction);
         group.add(stopAction);
+        group.add(openDlFileAction);
         return group;
     }
 
@@ -126,7 +137,7 @@ public class HeaderPanelComponent implements Disposable {
 
     private void registerKeymapManagerListener() {
         KeymapManager keymapManager = KeymapManager.getInstance();
-        keymapManager.addKeymapManagerListener(new KeymapManagerListener(){
+        keymapManager.addKeymapManagerListener(new KeymapManagerListener() {
             @Override
             public void activeKeymapChanged(@Nullable Keymap keymap) {
                 unregisterShortCuts();

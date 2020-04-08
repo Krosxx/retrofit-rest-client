@@ -27,6 +27,7 @@
 - [Set env params](#set-env-params)
 - [Install](#install)
 - [Advanced](#advanced)
+- [Chunked file support](#chunked-file-support)
 - [Thanks](#thanks)
 
 
@@ -179,6 +180,17 @@ http://xx.xx.xx/api
 
 ```
 
+### Chunked file support
+
+If your response is too large, the plugin will start download response-body to a file.
+
+When download complete, you can open this file by following actions:
+
+![](pic/GIF1.gif)
+
+By the way, if you need your json formatter plugin of browser, please enable `Allow access to file URLs`
+
+![](pic/s4.png)
 
 
 ### Thanks

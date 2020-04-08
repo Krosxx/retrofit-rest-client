@@ -133,14 +133,16 @@ class RunAction @JvmOverloads constructor(
                     if (!dlDir.exists()) {
                         dlDir.mkdirs()
                     }
-                    val urlName = requestModel.url.let { it[it.lastIndexOf('/') + 1, 0] }
-                            .let {
-                                if (!it.contains('?', false)) it
-                                else it[0, it.lastIndexOf('?')]
-                            }
+                    val urlName by lazy {
+                        requestModel.url.let { it[it.lastIndexOf('/') + 1, 0] }
+                                .let {
+                                    if (!it.contains('?', false)) it
+                                    else it[0, it.lastIndexOf('?')]
+                                }
+                    }
 
-                    val rp = response.getFilePostfix()
-                    val name = if (!urlName.endsWith(rp, true)) {
+                    val rp by lazy { response.getFilePostfix() }
+                    val name = response.fileName ?: if (!urlName.endsWith(rp, true)) {
                         urlName + rp
                     } else {
                         urlName
@@ -270,7 +272,9 @@ class RunAction @JvmOverloads constructor(
                                 """
                                 |# Duration: $duration ms
                                 |$requestEntity
-                                |$headers${response.body?.string()}
+                                |$headers${getFormattedResponse(project,
+                                        response.contentType,
+                                        response.body?.string()?.decodeUnicode())}
                                 |""".trimMargin()
                         )
                     }

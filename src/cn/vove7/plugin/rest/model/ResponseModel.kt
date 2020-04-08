@@ -7,6 +7,7 @@ class ResponseModel(
         val isChunked: Boolean,
         val headers: List<String>,
         val contentType: String?,
+        val fileName:String?,
         val body: ResponseBody?
 ) {
 
