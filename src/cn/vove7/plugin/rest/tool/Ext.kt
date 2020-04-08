@@ -123,13 +123,16 @@ operator fun String.times(i: Int): String = buildString {
  * @return String
  */
 fun String.decodeUnicode(): String {
-    var string = this
+    val s = this
     val reg = "\\\\u(\\p{XDigit}{4})".toRegex()
-    var offset = 0
-    reg.findAll(string).forEach {
-        val ch = it.groups[1]!!.value.toInt(16).toChar()
-        string = string.replaceRange(it.range.first - offset..it.range.last - offset, ch.toString())
-        offset += 5
+    return buildString {
+        var lastIndex = 0
+        reg.findAll(s).forEach { result ->
+            val ch = result.groups[1]!!.value.toInt(16).toChar()
+            append(s.substring(lastIndex until result.range.first))
+            append(ch)
+            lastIndex = result.range.last + 1
+        }
+        append(s.substring(lastIndex))
     }
-    return string
 }
