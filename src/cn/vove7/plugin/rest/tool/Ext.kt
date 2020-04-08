@@ -47,7 +47,7 @@ operator fun String.get(begin: Int, end: Int): String {
 fun getFormattedResponse(project: Project, contentType: String?, text: String?): String {
     val langList = Language.findInstancesByMimeType(contentType)
     return if (!langList.isEmpty()) {
-        format(project, langList.iterator().next(), text ?: "")
+        format(project, langList.iterator().next(), text.toString())
     } else text ?: ""
 }
 
@@ -115,4 +115,21 @@ fun JsonObject.toStringMap(): Map<String, String> {
 
 operator fun String.times(i: Int): String = buildString {
     repeat(i) { append(this@times) }
+}
+
+/**
+ * Unicode 转 中文
+ * @receiver String
+ * @return String
+ */
+fun String.decodeUnicode(): String {
+    var string = this
+    val reg = "\\\\u(\\p{XDigit}{4})".toRegex()
+    var offset = 0
+    reg.findAll(string).forEach {
+        val ch = it.groups[1]!!.value.toInt(16).toChar()
+        string = string.replaceRange(it.range.first - offset..it.range.last - offset, ch.toString())
+        offset += 5
+    }
+    return string
 }

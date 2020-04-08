@@ -10,7 +10,6 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.application.TransactionGuard
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.fileEditor.TextEditor
@@ -22,13 +21,9 @@ import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.impl.PsiFileFactoryImpl
 import com.intellij.ui.awt.RelativePoint
 import okhttp3.ResponseBody
-import org.jetbrains.kotlin.backend.common.onlyIf
-import org.jetbrains.kotlin.idea.completion.handlers.isTextAt
-import org.jetbrains.kotlin.idea.debugger.readAction
 import java.awt.EventQueue
 import java.io.BufferedOutputStream
 import java.io.File
-import java.io.IOException
 import java.io.StringWriter
 import java.time.LocalDateTime
 
@@ -93,14 +88,14 @@ class RunAction @JvmOverloads constructor(
             return
         }
         val envWithUrl = envs.map {
-            it.toUpperCase() + " " + (envConfig.getEnv(it)["BASE_URL", ""] ?: "")
+            it.toUpperCase() + " " + envConfig.getEnv(it)["BASE_URL", ""]
         }
         JBPopupFactory.getInstance().createPopupChooserBuilder<String>(envWithUrl).setTitle("Choose env").setItemChosenCallback {
             onChosen.invoke(envs[envWithUrl.indexOf(it)])
         }.createPopup().show(RelativePoint.getNorthWestOf(editor.component))
     }
 
-    operator fun JsonObject?.get(k: String, dv: String): String? = this?.get(k)?.asString
+    operator fun JsonObject?.get(k: String, dv: String): String = this?.get(k)?.asString ?: dv
 
     private fun runWithConfig(
             env: JsonObject?,
@@ -233,7 +228,7 @@ class RunAction @JvmOverloads constructor(
                                 writeResponse(project, document, restFile,
                                         """$requestEntity
                                         |$headers
-                                        |${if(!largeContent) "" 
+                                        |${if (!largeContent) ""
                                         else "# Content is too long\n# file download to [${tarFile.absolutePath}]"}
                                         |# length: [${getProgressText(cl, readLength)}...]
                                         |${if (largeContent) "" else sw.toString()}
@@ -248,7 +243,7 @@ class RunAction @JvmOverloads constructor(
                                 |$requestEntity
                                 |$headers
                                 |# length: [$tl]
-                                |$sw
+                                |${getFormattedResponse(project, response.contentType, sw.toString().decodeUnicode())}
                                 |""".trimMargin()
                             )
                         } else {
