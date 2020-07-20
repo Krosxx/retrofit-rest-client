@@ -8,17 +8,17 @@
 > This plugin is based on [idea-rest-client](https://github.com/danblack/idea-rest-client).
 
 
-> - **Support run retrofit api interface functions directly.**
+> - **Support run retrofit api interface functions directly**（**支持直接从 retrofit 接口函数执行 **）
 > - Supports GET, POST, PUT, DELETE, PATCH requests
 > - Multiline request parameters
 > - Rest file type support
-> - Internally supported dynamic parameters
+> - Internally supported dynamic parameters（动态参数配置支持）
 > - Response auto format (based on response Content-Type header)
 > - Customized colors and fonts
 > - Customized keyboard shortcuts
 > - Comments
-> - Support large body download
-> - Support un-text download and preview
+> - Support large body download（支持响应体下载）
+> - Support un-text download and preview（支持非文本类型下载及打开预览）
 
 
 - [PreView](#PreView)
