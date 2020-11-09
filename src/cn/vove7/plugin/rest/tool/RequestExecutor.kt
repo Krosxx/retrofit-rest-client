@@ -1,5 +1,6 @@
 package cn.vove7.plugin.rest.tool
 
+import cn.vove7.plugin.rest.https.TrustAllCerts
 import cn.vove7.plugin.rest.model.RequestModel
 import cn.vove7.plugin.rest.model.ResponseModel
 import com.intellij.openapi.util.Key
@@ -35,7 +36,14 @@ class RequestExecutor {
     }
 
     private fun createHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder().build()
+        return OkHttpClient.Builder()
+                .also {
+                    TrustAllCerts.createSSLSocketFactory()?.also { fac ->
+                        it.sslSocketFactory(fac, TrustAllCerts())
+                    }
+                }
+                .hostnameVerifier { _, _ -> true }
+                .build()
     }
 
     @Throws(IOException::class)

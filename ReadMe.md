@@ -1,4 +1,4 @@
-[![](http://182.61.3.65:8082/jetbrain/plugins/dc/13075?style=badge/Jetbrains_Plugin-{dc}+-yellow.svg?style=social)](https://plugins.jetbrains.com/plugin/13075-retrofit-rest-client-2-0/)
+[![](http://b.vove7.cn:8082/jetbrain/plugins/dc/13075?style=badge/Jetbrains_Plugin-{dc}+-yellow.svg?style=social)](https://plugins.jetbrains.com/plugin/13075-retrofit-rest-client-2-0/)
 
 # Retrofit Rest Client
 

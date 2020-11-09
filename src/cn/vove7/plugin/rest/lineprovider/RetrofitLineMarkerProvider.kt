@@ -33,9 +33,6 @@ abstract class RetrofitLineMarkerProvider : LineMarkerProvider {
         return nameIdentifier ?: this
     }
 
-    override fun collectSlowLineMarkers(elements: MutableList<PsiElement>, result: MutableCollection<LineMarkerInfo<PsiElement>>) {
-    }
-
     private fun PsiElement.markElementToMethod(): PsiMethod {
         return context as PsiMethod
     }
