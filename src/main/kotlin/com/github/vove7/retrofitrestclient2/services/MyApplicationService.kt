@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.vove7.retrofitrestclient2.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.vove7.retrofitrestclient2.MyBundle
 
 class MyApplicationService {
 
