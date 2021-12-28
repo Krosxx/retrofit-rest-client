@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.template
+package com.github.vove7.retrofitrestclient2
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
