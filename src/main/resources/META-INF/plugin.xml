@@ -1,18 +1,75 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>org.jetbrains.plugins.template</id>
-    <name>Template</name>
-    <vendor>JetBrains</vendor>
+    <id>cn.vove7.ide.plugin.rest</id>
+    <name>Retrofit Rest Client</name>
+    <vendor email="vove7@qq.com" url="https://github.com/Vove7/retrofit-rest-client">Vove7</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.kotlin</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <change-notes><![CDATA[
+    0. Support IDE 2021.3.1
+    1. Support post form data<br>
+    2. Support Quick Run Retrofit Api<br>
+    3. Support api method annotation @Headers(...)<br>
+    4. Auto create rest_env.json<br>
+    5. Rest Env config support set common headers<br>
+    6. Support large body download
+    7. Support chunked file download and preview
+    ]]>
+    </change-notes>
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="org.jetbrains.plugins.template.services.MyApplicationService"/>
         <projectService serviceImplementation="org.jetbrains.plugins.template.services.MyProjectService"/>
+
+        <codeInsight.lineMarkerProvider language="JAVA"
+                                        implementationClass="cn.vove7.plugin.rest.lineprovider.RetrofitLineJavaMarkerProvider" />
+
+        <codeInsight.lineMarkerProvider language="kotlin"
+                                        implementationClass="cn.vove7.plugin.rest.lineprovider.RetrofitLineKotlinMarkerProvider" />
+
+        <fileTypeFactory implementation="cn.vove7.plugin.rest.filetype.RestFileTypeFactory" />
+        <lang.parserDefinition language="Rest"
+                               implementationClass="cn.vove7.plugin.rest.filetype.RestParserDefinition" />
+        <lang.syntaxHighlighterFactory language="Rest"
+                                       implementationClass="cn.vove7.plugin.rest.filetype.RestHighlighterFactory" />
+        <multiHostInjector implementation="cn.vove7.plugin.rest.filetype.RestHostInjector" />
+        <additionalTextAttributes file="META-INF/schema.xml" scheme="Default" />
+
+        <colorSettingsPage implementation="cn.vove7.plugin.rest.filetype.RestColorSettingsPage" />
+
+        <lang.commenter language="Rest"
+                        implementationClass="cn.vove7.plugin.rest.filetype.RestCommenter" />
     </extensions>
 
-    <applicationListeners>
-        <listener class="org.jetbrains.plugins.template.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+
+    <application-components>
+        <component>
+            <implementation-class>cn.vove7.plugin.rest.filetype.RestClientPlugin
+            </implementation-class>
+        </component>
+    </application-components>
+
+    <project-components>
+        <component>
+            <implementation-class>cn.vove7.plugin.rest.filetype.RestProjectComponent
+            </implementation-class>
+        </component>
+    </project-components>
+
+    <actions>
+        <action class="cn.vove7.plugin.rest.action.RunAction" id="rest.action.run"
+                text="Run Rest Request">
+            <keyboard-shortcut first-keystroke="meta ENTER" keymap="$default" />
+        </action>
+        <action class="cn.vove7.plugin.rest.action.StopAction" id="rest.action.stop"
+                text="Stop Rest Request">
+            <keyboard-shortcut first-keystroke="meta F2" keymap="$default" />
+        </action>
+        <action class="cn.vove7.plugin.rest.action.OpenDlFileAction" id="rest.action-open_dl_file"
+                text="Open Download File" />
+    </actions>
+
 </idea-plugin>

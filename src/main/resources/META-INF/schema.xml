@@ -1,0 +1,39 @@
+<list>
+    <option name="REST_HEADER">
+        <value>
+            <option name="FOREGROUND" value="aa0f0f"/>
+            <option name="FONT_TYPE" value="1"/>
+        </value>
+    </option>
+    <option name="REST_METHOD">
+        <value>
+            <option name="FOREGROUND" value="00ff00"/>
+            <option name="FONT_TYPE" value="1"/>
+        </value>
+    </option>
+    <option name="REST_OPTION">
+        <value>
+            <option name="FOREGROUND" value="26a624"/>
+            <option name="FONT_TYPE" value="1"/>
+        </value>
+    </option>
+    <option name="REST_PARAM">
+        <value>
+            <option name="FOREGROUND" value="295dc5"/>
+            <option name="EFFECT_TYPE" value="1"/>
+        </value>
+    </option>
+    <option name="REST_SEPARATOR">
+        <value>
+            <option name="FOREGROUND" value="1b18ff"/>
+            <option name="FONT_TYPE" value="1"/>
+            <option name="EFFECT_COLOR" value="2519ff"/>
+        </value>
+    </option>
+    <option name="REST_URL">
+        <value>
+            <option name="FOREGROUND" value="295dc5"/>
+            <option name="FONT_TYPE" value="1"/>
+        </value>
+    </option>
+</list>
