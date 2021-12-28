@@ -162,7 +162,7 @@ You can use `{name}` to reference env variable.
 
 IDEA or Android Studio `Settings/Plugins/Marketplace` search `Retrofit Rest Client`
 
-2. download [retrofit-rest-client.zip](https://github.com/Vove7/retrofit-rest-client/blob/master/retrofit-rest-client.zip) file.
+2. download [Retrofit Rest Client-2.3.0.zip](Retrofit Rest Client-2.3.0.zip) file.
 
 `Settings/Plugins/` Install Plugin from Disk.
 
